@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.njit.domain">
+
+	<class name="Project" table="njit_project">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<property name="total" />
+		<property name="projectNo" />
+		<property name="description" />
+
+<!--curriculum属性，本类与curriculum的多对一 -->
+		<many-to-one name="curriculum" class="Curriculum" column="curriculumId"  ></many-to-one>
+	</class>
+
+</hibernate-mapping>

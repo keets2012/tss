@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.njit.domain">
+
+	<class name="Share" table="njit_share">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<property name="filePath" />
+		<property name="uploadTime" />
+		<property name="description" />
+			<!-- user属性，本类与User的多对一-->
+		<many-to-one name="user" class="User" column="userId">
+		</many-to-one>
+
+		<!-- course属性，本类与Course的多对一-->
+		<many-to-one name="course" class="Course" column="courseId"></many-to-one>
+
+	</class>
+
+</hibernate-mapping>

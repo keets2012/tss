@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.njit.domain">
+
+	<class name="Task" table="njit_task">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<property name="description" />
+		<property name="assignDate" />
+		<property name="dueDate" />
+
+		<!-- reports属性，本类与Report的一对多 -->
+		<set name="reports" cascade="delete" inverse="true">
+			<key column="taskId"></key>
+			<one-to-many class="Report" />
+		</set>
+		
+		<!--depts属性，本类与Department的多对多 -->
+		<set name="depts" table="njit_department_task">
+			<key column="taskId"></key>
+			<many-to-many class="Department" column="departmentId"></many-to-many>
+		</set>
+		<!-- user属性，本类与User的多对一-->
+		<many-to-one name="user" class="User" column="userId">
+		</many-to-one>
+		
+		<!-- course属性，本类与Course的多对一-->
+		<many-to-one name="course" class="Course" column="courseId">
+		</many-to-one>
+
+	</class>
+
+</hibernate-mapping>

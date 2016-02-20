@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.njit.domain">
+
+	<class name="OldExperiment" table="njit_oldExperiment">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="expTime" />
+		<property name="expId" />
+		<property name="expTerm" />
+		<property name="description" />
+		<property name="projectName" />
+		<property name="courseName" />
+		<property name="deptName" />
+		<property name="userName" />
+		<property name="labName" />
+	</class>
+
+</hibernate-mapping>

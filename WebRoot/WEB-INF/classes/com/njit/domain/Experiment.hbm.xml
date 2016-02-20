@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.njit.domain">
+
+	<class name="Experiment" table="njit_experiment">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="expTime" />
+		<property name="expId" />
+		<property name="expTerm" />
+		<property name="description" />
+
+<!--dept属性，本类与Department的多对一 -->
+<many-to-one name="dept" class="Department" column="departmentId" >
+</many-to-one>
+
+
+<!--user属性，本类与User的多对一-->
+		<many-to-one name="user" class="User" column="userId" ></many-to-one> 
+
+<!--course属性，本类与Course的多对一 
+		<many-to-one name="course" class="Course" column="courseId"  ></many-to-one>-->
+<!--lab属性，本类与Laboratory的多对一 -->
+		<many-to-one name="lab" class="Laboratory" column="labId" ></many-to-one>
+<!--project属性，本类与project的多对一 -->
+		<many-to-one name="project" class="Project" column="projectId" ></many-to-one>
+	</class>
+
+</hibernate-mapping>

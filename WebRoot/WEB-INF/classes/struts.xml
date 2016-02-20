@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<constant name="struts.multipart.maxSize" value="55000000"/>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.action.extension" value="action" />
+	<constant name="struts.ui.theme" value="simple" />
+	<package name="default" namespace="/" extends="struts-default">
+
+		<interceptors>
+			<interceptor name="checkPrivilege"
+				class="com.njit.util.CheckPrivilegeInterceptor"></interceptor>
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="checkPrivilege"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+
+		</interceptors>
+
+
+		<global-results>
+
+			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp
+			</result>
+			<result name="noPrivilegeError">/noPrivilegeError.jsp
+			</result>
+		</global-results>
+
+		<!--未与hbm整合 -->
+		<action name="test" class="testAction"><!-- 整合后可以直接写bean的名字 -->
+			<result name="yes">/test.jsp</result>
+		</action>
+
+
+
+		<!-- 岗位管理 -->
+		<action name="role_*" class="com.njit.view.action.RoleAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/roleAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/roleAction/saveUI.jsp
+			</result>
+
+			<result name="setPrivilegeUI">/WEB-INF/jsp/roleAction/setPrivilegeUI.jsp
+			</result>
+			<result name="toList" type="redirectAction">role_list</result>
+		</action>
+
+		<!-- 部门管理 -->
+		<action name="department_*" class="com.njit.view.action.DepartmentAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/departmentAction/list.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/departmentAction/saveUI.jsp
+			</result>
+			<!-- ognl表达式 -->
+			<result name="toList" type="redirectAction">department_list?parentId=${parentId}
+			</result>
+		</action>
+
+
+
+		<!-- 用户管理 -->
+		<action name="user_*" class="com.njit.view.action.UserAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+				<interceptor-ref name="defaultStack">
+				<param name="allowedExtensions">xls,zip,txt,rar,docx,pdf</param>
+				<param name="fileUpload.maximumSize">102400</param>
+			</interceptor-ref>
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">102400</param>
+				<param name="contentDisposition">attachment; fileName="${fileNames}"</param>
+				</result>
+			<result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
+			<result name="saveUI">/WEB-INF/jsp/userAction/saveUI.jsp
+			</result>
+			<result name="toList" type="redirectAction">user_list</result>
+			<result name="myInfoUI">/WEB-INF/jsp/userAction/myInfoUI.jsp
+			</result>
+			<result name="userInput">/WEB-INF/jsp/userAction/userInput.jsp
+			</result>
+
+			<result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp
+			</result>
+			<result name="logout">/WEB-INF/jsp/userAction/logout.jsp
+			</result>
+			<result name="toIndex" type="redirect">/index.jsp</result>
+
+
+
+			<result name="editMyUI">/WEB-INF/jsp/userAction/editMy.jsp
+			</result>
+			<result name="successUI">success.jsp</result>
+		</action>
+
+		<!-- 论坛管理 -->
+		<action name="forumManage_*" class="com.njit.view.action.ForumManageAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/forumManageAction/list.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/forumManageAction/saveUI.jsp
+			</result>
+			<result name="toList" type="redirectAction">forumManage_list</result>
+		</action>
+		<!-- 论坛板块管理 -->
+		<action name="forum_*" class="com.njit.view.action.ForumAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/forumAction/list.jsp</result>
+			<result name="show">/WEB-INF/jsp/forumAction/show.jsp</result>
+
+		</action>
+		<!-- 论坛主题管理 -->
+		<action name="topic_*" class="com.njit.view.action.TopicAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="show">/WEB-INF/jsp/topicAction/show.jsp
+			</result>
+			<result name="addUI">/WEB-INF/jsp/topicAction/addUI.jsp
+			</result>
+			<result name="moveUI">/WEB-INF/jsp/topicAction/moveUI.jsp</result>
+			<result name="showAll" type="redirectAction">forum_show</result>
+			<result name="toShow" type="redirectAction">topic_show?id=${id}</result>
+		</action>
+		<!-- 论坛回复管理 -->
+		<action name="reply_*" class="com.njit.view.action.ReplyAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="addUI">/WEB-INF/jsp/replyAction/addUI.jsp
+			</result>
+			<result name="toTopicShow" type="redirectAction">topic_show?id=${topicId}
+			</result>
+		</action>
+
+		<!-- 实验室管理 -->
+		<action name="lab_*" class="com.njit.view.action.LaboratoryAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/laboratoryAction/list.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/laboratoryAction/saveUI.jsp
+			</result>
+			<!-- ognl表达式 -->
+			<result name="toList" type="redirectAction">lab_list</result>
+		</action>
+		
+				<!-- 课程目录管理 -->
+		<action name="cur_*" class="com.njit.view.action.CurriculumAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/courseAction/list.jsp
+			</result>
+			
+			<result name="saveUI">/WEB-INF/jsp/courseAction/saveUI.jsp
+			</result>
+			<result name="toList" type="redirectAction">cur_list</result>
+		</action>
+
+
+		<!-- 实验室项目管理 -->
+		<action name="project_*" class="com.njit.view.action.ProjectAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<!-- 可以更改fileUpload拦截器的属性值来限定上传文件的内容类型，上传文件的大小 -->
+			<interceptor-ref name="defaultStack">
+				<param name="allowedTypes">xls</param>
+				<param name="maximumSize">10485760</param>
+			</interceptor-ref>
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">102400</param>
+				<param name="contentDisposition">attachment; fileName="${fileNames}"</param>
+	
+			</result>
+			<result name="projectInput">/WEB-INF/jsp/projectAction/projectInput.jsp
+			</result>
+			<result name="successUI">success.jsp</result>
+			<result name="list">/WEB-INF/jsp/projectAction/list.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/projectAction/saveUI.jsp
+			</result>
+			<!-- ognl表达式 -->
+			<result name="toList" type="redirectAction">project_list</result>
+		</action>
+
+		<!-- 共享管理 -->
+		<action name="share_*" class="com.njit.view.action.ShareAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<!-- 可以更改fileUpload拦截器的属性值来限定上传文件的内容类型，上传文件的大小 -->
+			<interceptor-ref name="defaultStack">
+				<param name="allowedTypes">png,bmp,jpg,doc,xls,zip,txt,rar,docx,pdf</param>
+				<param name="maximumSize">10485760</param>
+			</interceptor-ref>
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">102400</param>
+			<param name="contentDisposition">attachment; fileName="${fileNames}"</param>
+	</result>
+			<result name="myList">/WEB-INF/jsp/shareAction/myList.jsp
+			</result>
+			<result name="list">/WEB-INF/jsp/shareAction/list.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/shareAction/saveUI.jsp
+			</result>
+			<result name="editUI">/WEB-INF/jsp/shareAction/editUI.jsp
+			</result>
+			<result name="toAllList" type="redirectAction">share_list</result>
+			<!-- ognl表达式 -->
+			<result name="toList" type="redirectAction">share_myList</result>
+		</action>
+		
+
+		<!--下发 任务管理 -->
+		<action name="task_*" class="com.njit.view.action.TaskAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/taskAction/list.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/taskAction/saveUI.jsp
+			</result>
+			<result name="toList" type="redirectAction">task_list</result>
+		</action>
+
+		<!--实验报告管理 -->
+		<action name="report_*" class="com.njit.view.action.ReportAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+
+			<!-- 可以更改fileUpload拦截器的属性值来限定上传文件的内容类型，上传文件的大小 -->
+			<interceptor-ref name="defaultStack">
+				<param name="allowedExtensions">png,bmp,jpg,doc,xls,zip,txt,rar,docx,pdf</param>
+				<param name="fileUpload.maximumSize">10485760</param>
+			</interceptor-ref>
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream;charset=ISO8859-1</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">102400</param>
+				<param name="contentDisposition">attachment; fileName="${fileNames}"</param>
+			</result>
+			
+
+
+				<result name="list">/WEB-INF/jsp/reportAction/list.jsp
+				</result>
+				<result name="view">/WEB-INF/jsp/reportAction/documentView.jsp
+				</result>
+				<result name="detaileCount">/WEB-INF/jsp/reportAction/detailCount.jsp
+				</result>
+				<result name="detaileCountShow">/WEB-INF/jsp/reportAction/detailCountShow.jsp
+				</result>
+				<result name="myList">/WEB-INF/jsp/reportAction/myList.jsp
+				</result>
+				<result name="count">/WEB-INF/jsp/reportAction/count.jsp
+				</result>
+				<result name="saveUI">/WEB-INF/jsp/reportAction/saveUI.jsp
+				</result>
+				<result name="editUI">/WEB-INF/jsp/reportAction/editUI.jsp
+				</result>
+				<result name="toList" type="redirectAction">report_list</result>
+		</action>
+
+
+		<!-- 预约实验项目管理 -->
+		<action name="exp_*" class="com.njit.view.action.ExperimentAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="list">/WEB-INF/jsp/experimentAction/list.jsp
+			</result>
+			<result name="oldList">/WEB-INF/jsp/experimentAction/oldList.jsp
+			</result>
+			<result name="queryUI">/WEB-INF/jsp/experimentAction/queryUI.jsp
+			</result>
+			<result name="saveUI">/WEB-INF/jsp/experimentAction/saveUI.jsp
+			</result>
+			<result name="editUI">/WEB-INF/jsp/experimentAction/editUI.jsp
+			</result>
+			<result name="myCourseUI">/WEB-INF/jsp/experimentAction/myCourse.jsp
+			</result>
+			<result name="courseUI">/WEB-INF/jsp/experimentAction/course.jsp
+			</result>
+			<!-- ognl表达式 -->
+			<result name="toList" type="redirectAction">exp_list</result>
+			<result name="toCourseList" type="redirectAction">exp_course</result>
+		</action>
+
+		<!-- 课程管理 -->
+		<action name="course_*" class="com.njit.view.action.CourseAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<interceptor-ref name="defaultStack">
+				<param name="allowedExtensions">xls</param>
+				<param name="fileUpload.maximumSize">102400</param>
+			</interceptor-ref>
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">102400</param>
+			<param name="contentDisposition">attachment; fileName="${fileNames}"</param>
+			</result>
+			<result name="list">/WEB-INF/jsp/courseAction/myList.jsp
+			</result>
+			<result name="courseInput">/WEB-INF/jsp/courseAction/arrCourseInput.jsp
+			</result>
+			<result name="oldList">/WEB-INF/jsp/courseAction/oldList.jsp
+			</result>
+			<result name="del">/WEB-INF/jsp/courseAction/del.jsp </result>
+			<result name="successUI">success.jsp</result>
+			<result name="toList" type="redirectAction">course_arrList</result>
+			<result name="arrSaveUI">/WEB-INF/jsp/courseAction/arrSaveUI.jsp
+			</result>
+			<result name="arrList">/WEB-INF/jsp/courseAction/arrList.jsp
+			</result>
+			<!-- ognl表达式 -->
+			
+			<result name="toArrList" type="redirectAction">course_arrList</result>
+		</action>
+
+
+
+		<!-- 首页 -->
+		<action name="home_*" class="com.njit.view.action.HomeAction"
+			method="{1}"><!-- 整合后可以直接写bean的名字 -->
+			<result name="{1}">/WEB-INF/jsp/homeAction/{1}.jsp</result>
+
+		</action>
+
+	</package>
+
+	<!-- Add packages here -->
+
+</struts>

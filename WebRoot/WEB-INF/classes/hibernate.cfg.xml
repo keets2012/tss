@@ -1,0 +1,48 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+	<property name="hibernate.dialect">
+		org.hibernate.dialect.MySQL5InnoDBDialect
+	</property>
+
+
+
+	<!--   <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">zhurongxin</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test</property>
+	-->
+
+
+	<!-- 导入其他配置 -->
+	<property name="show_sql">true</property>
+	<property name="hbm2ddl.auto">update</property>
+
+
+
+	<!-- 导入配置文件 -->
+	<!-- <mapping resource="cn/user.hbm.xml" /> -->
+	<mapping resource="com/njit/domain/Role.hbm.xml" />
+	<mapping resource="com/njit/domain/Department.hbm.xml" />
+	<mapping resource="com/njit/domain/User.hbm.xml" />
+	<mapping resource="com/njit/domain/Privilege.hbm.xml" />
+	<mapping resource="com/njit/domain/Forum.hbm.xml" />
+	<mapping resource="com/njit/domain/Reply.hbm.xml" />
+	<mapping resource="com/njit/domain/Topic.hbm.xml" />
+	<mapping resource="com/njit/domain/Laboratory.hbm.xml" />
+	<mapping resource="com/njit/domain/Course.hbm.xml" />
+	<mapping resource="com/njit/domain/Experiment.hbm.xml" />
+	<mapping resource="com/njit/domain/Project.hbm.xml" />
+	<mapping resource="com/njit/domain/Share.hbm.xml" />
+	<mapping resource="com/njit/domain/Task.hbm.xml" />
+	<mapping resource="com/njit/domain/Report.hbm.xml" />
+	<mapping resource="com/njit/domain/Curriculum.hbm.xml" />
+	<mapping resource="com/njit/domain/OldCourse.hbm.xml" />
+	<mapping resource="com/njit/domain/OldExperiment.hbm.xml" />
+
+
+</session-factory>
+</hibernate-configuration>
